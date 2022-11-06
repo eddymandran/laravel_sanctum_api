@@ -2,9 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Resources\TasksResource;
+use App\Models\Task;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
-class TaskController extends Controller
+class TasksController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -13,7 +16,9 @@ class TaskController extends Controller
      */
     public function index()
     {
-        return response()->json('Test');
+        return TasksResource::collection(
+            Task::where('user_id', Auth::user()->id)->get()
+        );
     }
 
     /**
